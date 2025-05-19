@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+scikit-learn
+mysql-connector-python
+openpyxl  # For Excel support
+ydata-profiling  # For data profiling
+python-dotenv  # For environment variables
+streamlit-pandas-profiling
+scikit-learn

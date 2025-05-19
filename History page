@@ -1,0 +1,28 @@
+def history_page():
+    st.header("Your Cleaning History")
+    
+    if not check_authenticated():
+        st.warning("Please login to view history")
+        return
+    
+    db = DBHandler()
+    files = db.get_user_files(st.session_state.user['user_id'])
+    
+    if not files:
+        st.info("No files uploaded yet")
+        return
+    
+    st.write("### Your Recent Files")
+    for file in files:
+        with st.expander(f"{file[1]} - {file[2].strftime('%Y-%m-%d %H:%M')}"):
+            st.write(f"Operations performed: {file[3]}")
+            st.write(f"Last cleaned: {file[4].strftime('%Y-%m-%d %H:%M') if file[4] else 'Never'}")
+            
+            if st.button(f"Reload {file[1]}", key=f"reload_{file[0]}"):
+                try:
+                    # Implement file reloading logic here
+                    st.session_state.df = pd.read_csv(file[2])
+                    st.success("File reloaded!")
+                except Exception as e:
+                    st.error(f"Error reloading file: {e}")
+                    
